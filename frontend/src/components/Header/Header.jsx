@@ -6,16 +6,23 @@ import 'reactjs-popup/dist/index.css';
 import Basket from './Basket.jsx';
 import './popupExtra.css'
 import Upload from './Upload.jsx';
-
-import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function Header(props) {
-  
+
   const { onAdd, onRemove, setItems, reRender, user, updateUser } = props;
+  
+  const history = useHistory();
 
   var s = {
     height: "2cm",
     width: "5cm"
+  }
+
+  const redirectme = () =>{
+    history.push("/orderHistory");
+    window.location.reload();
+
   }
 
   return (
@@ -35,12 +42,15 @@ export default function Header(props) {
             user && user._id ? <a className="mr-5 hover:text-white">Help</a> : <a></a>
           }
         </nav>
-
+        {user && user._id ?
+          <button className="mybutton" onClick={redirectme}> Order History &nbsp;</button> : <></>
+        }
         <Router>
           <div className="flex justify-between">
-            { user && user._id ?
+            {user && user._id ?
+
               <Popup
-                trigger={<button className="mybutton"> Cart </button>}
+                trigger={<button className="mybutton"> &nbsp; Cart &nbsp; </button>}
                 modal
                 nested
               >
@@ -71,13 +81,13 @@ export default function Header(props) {
                     </div>
                   </div>
                 )}
-              </Popup>:
+              </Popup> :
               <div></div>
             }
             {
               user && user._id ?
                 <Popup
-                  trigger={<button className="mybutton"> Upload </button>}
+                  trigger={<button className="mybutton">&nbsp; Upload &nbsp; </button>}
                   modal
                   nested
                 >
@@ -111,6 +121,7 @@ export default function Header(props) {
                 <></>
             }
           </div>
+          &nbsp;
           <Sidebar
             user={user}
             updateUser={updateUser} />

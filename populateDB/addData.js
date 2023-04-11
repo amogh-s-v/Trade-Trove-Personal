@@ -10,7 +10,7 @@ const dbName = 'TradeTrove';
 const client = new MongoClient(url);
 
 // Excel sheet file path
-const filePath = 'prods.xlsx';
+const filePath = 'output.xlsx';
 
 // Excel sheet column names to MongoDB field name mapping
 const fieldMapping = {
@@ -21,6 +21,7 @@ const fieldMapping = {
   'brand': 'uploader'
 };
 
+// Function to read data from Excel sheet and insert into MongoDB
 // Function to read data from Excel sheet and insert into MongoDB
 async function readExcelAndInsertIntoMongoDB() {
   try {
@@ -42,7 +43,7 @@ async function readExcelAndInsertIntoMongoDB() {
         for (const [key, value] of Object.entries(row)) {
           if (key in fieldMapping) {
             if (key === 'image') {
-              mappedRow[fieldMapping[key]] = Array.isArray(value) ? value[0] : value;
+              mappedRow[fieldMapping[key]] = value.split(',')[0].trim().replace(/"|]/g, '').replace("[", "");
             } else {
               mappedRow[fieldMapping[key]] = value;
             }
@@ -60,6 +61,7 @@ async function readExcelAndInsertIntoMongoDB() {
     console.log('Disconnected from MongoDB');
   }
 }
+
 
 // Call the function to read data from Excel sheet and insert into MongoDB
 readExcelAndInsertIntoMongoDB();
