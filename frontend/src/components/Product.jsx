@@ -8,7 +8,7 @@ export default function Product(props) {
     <div className="lg:w-1/4 md:w-1/2 p-4 w-full border-2 border-white p-4">
 
       <a className="block relative h-48 rounded overflow-hidden">
-        <img className="object-cover object-center w-full h-full block" src={product.image} alt={product.title} />
+        <img className="object-contain object-center w-full h-full block" src={product.image} alt={product.title} />
       </a>
       <div className="mt-4">
         <h3 className="text-white title-font text-lg font-medium">{product.title}</h3>
