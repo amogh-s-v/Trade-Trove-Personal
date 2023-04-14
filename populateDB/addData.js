@@ -3,7 +3,7 @@ const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
 // Connection URL and database name
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb+srv://amoghsv:m9Niqwi33oTc9r1t@cluster0.cwqcvrn.mongodb.net/?retryWrites=true&w=majority';
 const dbName = 'TradeTrove';
 
 // Create a new MongoClient instance
