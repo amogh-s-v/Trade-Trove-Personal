@@ -209,7 +209,7 @@ app.get('/contact', function (req, res) {
 })
 
 
-const mongodb = "mongodb+srv://amoghsv:m9Niqwi33oTc9r1t@cluster0.cwqcvrn.mongodb.net/TradeTrove?retryWrites=true&w=majority";
+const mongodb = "mongodb://localhost:27017/TradeTrove";
 const PORT = process.env.PORT || 9002;
 mongoose.connect(mongodb, {
     useNewUrlParser: true,
