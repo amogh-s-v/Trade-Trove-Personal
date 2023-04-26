@@ -11,7 +11,7 @@ export default function Product(props) {
         <img className="object-cover object-center w-full h-full block" src={product.image} alt={product.title} />
       </a>
       <div className="mt-4">
-        <h3 className="text-white title-font text-lg font-medium">{product.title}</h3>
+        <h3 className="text-white title-font text-lg font-medium">{product}</h3>
         <p className="mt-1">₹{product.price}</p>
         <div className="flex">
           <button
