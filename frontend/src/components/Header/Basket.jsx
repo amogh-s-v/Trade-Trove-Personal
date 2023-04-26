@@ -6,32 +6,31 @@ import axios from 'axios';
 
 export default function Basket(props) {
 
-  const { onAdd, onRemove, reRender } = props;
+  const { onAdd, onRemove, reRender, user } = props;
 
   const [cartItems, setCartItems] = useState([]);
-
-  const [user, setLoginUser] = useState({})
-
-  useEffect(() => {
-    setLoginUser(JSON.parse(localStorage.getItem("MyUser")))
-  }, [])
+  const [isLoading, setIsLoading] = useState(true);
 
   const getCartItems = async () => {
     try {
-      const { data } = await axios.post("http://localhost:9002/cart", {user})
-      return data
+      const { data } = await axios.post("http://localhost:9002/cart", { user });
+      return data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getCartItems();
-      setCartItems(result)
+      if (user !== null) {
+        setIsLoading(true);
+        const result = await getCartItems();
+        setCartItems(result);
+        setIsLoading(false);
+      }
     }
     fetchData()
-  }, [reRender, user])
+  }, [reRender])
 
   const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.price, 0);
 
@@ -40,7 +39,6 @@ export default function Basket(props) {
   const redirectMe = (url) => {
     history.push(url)
     window.location.reload();
-
   }
 
   return (
@@ -50,24 +48,27 @@ export default function Basket(props) {
       <br></br>
 
       <div>
-        {cartItems.length === 0 && <div>Cart is empty</div>}
-        {cartItems.map((item) => (
-          <div key={item._id} className="row">
-            <div className="col-2 inline text-base text-violet-500">{item.title}</div>
-            <div className="col-2 text-base text-sky-400">
-              <button onClick={() => onRemove(item)} className="remove">
-                -
-              </button>{' '}
-              <button onClick={() => onAdd(item)} className="add">
-                +
-              </button>
+        {isLoading ? <p>Loading cart...</p> :
+
+          cartItems.map((item) => (
+            <div key={item._id} className="row">
+              <div className="col-2 inline text-base text-violet-500">{item.title}</div>
+              <div className="col-2 text-base text-sky-400">
+                <button onClick={() => onRemove(item)} className="remove">
+                  -
+                </button>{' '}
+                <button onClick={() => onAdd(item)} className="add">
+                  +
+                </button>
+              </div>
+              <div className="col-2 inline text-base text-rose-300" >{item.qty}</div>
+              <div className="col-2 text-right inline text-base text-green-300">
+                ₹{item.qty * item.price.toFixed(2)}
+              </div>
             </div>
-            <div className="col-2 inline text-base text-rose-300" >{item.qty}</div>
-            <div className="col-2 text-right inline text-base text-green-300">
-              ₹{item.qty * item.price.toFixed(2)}
-            </div>
-          </div>
-        ))}
+          ))
+
+        }
 
         <br></br>
 

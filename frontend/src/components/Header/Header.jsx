@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom';
 export default function Header(props) {
 
   const { onAdd, onRemove, setItems, reRender, user, updateUser } = props;
-  
+
   const history = useHistory();
 
   var s = {
@@ -19,17 +19,17 @@ export default function Header(props) {
     width: "5cm"
   }
 
-  const redirectme = () =>{
+  const redirectme = () => {
     history.push("/orderHistory");
     window.location.reload();
-
   }
 
   return (
     <header className="text-gray-400 bg-gray-900 body-font">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-        <a className="flex title-font font-medium items-center text-white mb-4 md:mb-0">
-          <img style={s} className="imgLogo" src='http://localhost:9002/getIMG' />
+        <a href="/" className="flex title-font font-medium items-center text-white mb-4 md:mb-0">
+          <img style = {s} src="https://i.ibb.co/pj2QBzy/delivery-app.png" alt="delivery-app" border="0">
+          </img>
         </a>
         <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-700	flex flex-wrap items-center text-base justify-center">
 
@@ -66,6 +66,7 @@ export default function Header(props) {
                         onAdd={onAdd}
                         onRemove={onRemove}
                         reRender={reRender}
+                        user={user}
                       ></Basket>
                     </div>
                     <div className="actions">

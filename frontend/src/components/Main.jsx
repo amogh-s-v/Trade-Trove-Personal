@@ -14,8 +14,6 @@ export default function Main(props) {
     props.searchKeyword(inputEl.current.value);
   }
 
-  const url = "http://localhost:9002/items";
-
   useEffect(() => {
     const fetchData = async () => {
       const result = await getItems();
@@ -26,7 +24,7 @@ export default function Main(props) {
 
   const getItems = async () => {
     try {
-      const { data } = await axios.get(url)
+      const { data } = await axios.get("http://localhost:9002/items")
       return data
     } catch (error) {
       console.log(error)

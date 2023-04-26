@@ -21,7 +21,6 @@ function App() {
           {user ?
             <Switch>
               <Route path='/' exact component={Home} />
-              {/* <Route path = '/pending' exact component={PendingTransactions}/> */}
               <Route path='/checkout' exact component={checkout} />
               <Route path='/orderHistory' exact component={Orderhistory} />
             </Switch>
