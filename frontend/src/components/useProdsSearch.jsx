@@ -23,7 +23,7 @@ export default function useProdsSearch(query, pageNumber) {
     }).then(res => {
       console.log(res)
       setProds(prevProds => {
-        return [...new Set([...prevProds, ...res.data.map(b => b.title)])]
+        return [...new Set([...prevProds, ...res.data])]
       })
       setHasMore(res.data.length > 0)
       setLoading(false)

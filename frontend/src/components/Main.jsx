@@ -1,10 +1,9 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, forwardRef } from "react";
 import Product from './Product';
 import ProductPopup from './ProductPopup'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import useProdsSearch from './useProdsSearch'
-
 
 export default function Main(props) {
   const { products, onAdd, term, status, changeStatus, user, updateUser, item, items, setItem, setItems } = props;
@@ -21,6 +20,7 @@ export default function Main(props) {
   console.log(prods)
 
   const observer = useRef()
+
   const lastProdsElementRef = useCallback(node => {
     if (loading) return
     if (observer.current) observer.current.disconnect()
@@ -47,6 +47,7 @@ export default function Main(props) {
     setSelectedProduct(null);
   };
 
+
   return (
     <div className="flex-row">
       <div className="wrap">
@@ -60,27 +61,39 @@ export default function Main(props) {
       <div className="flex flex-wrap gap-12 -m-4" >
         {prods.map((prod, index) => {
           if (prods.length === index + 1) {
-            return <div ref={lastProdsElementRef} key={prod}>{prod}</div>
+            return <div ref={lastProdsElementRef} key={prod._id}>
+              <Product
+                item={item}
+                setItem={setItem}
+                items={items}
+                setItems={setItems}
+                user={user}
+                updateUser={updateUser}
+                
+                product={prod}
+                onAdd={onAdd}
+                status={status}
+                changeStatus={changeStatus}
+                handleProductSelect={handleProductSelect}
+              ></Product>
+            </div>
           } else {
-            return <div key={prod}>{prod}</div>
+            return <Product
+              item={item}
+              setItem={setItem}
+              items={items}
+              setItems={setItems}
+              user={user}
+              updateUser={updateUser}
+              key={prod._id}
+              product={prod}
+              onAdd={onAdd}
+              status={status}
+              changeStatus={changeStatus}
+              handleProductSelect={handleProductSelect}
+            ></Product>
           }
         })}
-        {/* {prods.map((product) => (
-          <Product
-            item={item}
-            setItem={setItem}
-            items={items}
-            setItems={setItems}
-            user={user}
-            updateUser={updateUser}
-            key={product._id}
-            product={product}
-            onAdd={onAdd}
-            status={status}
-            changeStatus={changeStatus}
-            handleProductSelect={handleProductSelect}
-          ></Product>
-        ))} */}
       </div>
       {selectedProduct && (
         <ProductPopup product={selectedProduct} onClose={handlePopupClose} />
