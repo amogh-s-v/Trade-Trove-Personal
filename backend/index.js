@@ -51,15 +51,24 @@ const Order = mongoose.model('Order', orderSchema);
 
 app.get("/items", async (req, res) => {
     try {
-        const item = await Item.find()
-
-        res.status(200).json(item);
+      const query = req.query.q;
+      const page = req.query.page;
+  
+      const itemsPerPage = 9;
+      const startIndex = (page - 1) * itemsPerPage;
+      const endIndex = page * itemsPerPage;
+  
+      const items = await Item.find({ title: { $regex: query, $options: "i" } })
+        .sort({ title: 1 })
+        .skip(startIndex)
+        .limit(itemsPerPage);
+  
+      res.status(200).json(items);
     } catch (error) {
-        res.status(404).json({ message: error.message });
-
+      res.status(404).json({ message: error.message });
     }
-})
-
+  });
+  
 
 app.post("/items", async (req, res) => {
     const item = new Item(req.body);
